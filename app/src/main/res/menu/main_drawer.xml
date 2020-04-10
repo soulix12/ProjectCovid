@@ -8,4 +8,8 @@
         android:id="@+id/action_mainFragment_to_todoFragment"
         android:checkable="false"
         android:title="To Do List" />
+    <item
+        android:id="@+id/action_mainFragment_to_tableauFragment"
+        android:checkable="false"
+        android:title="Covid-19 Figures" />
 </menu>
