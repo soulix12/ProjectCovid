@@ -17,5 +17,22 @@
         android:id="@+id/mainFragment"
         android:name="com.example.covid2019.fragment.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_exerciseFragment"
+            app:destination="@id/exerciseFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_todoFragment"
+            app:destination="@id/todoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="com.example.covid2019.fragment.ExerciseFragment"
+        android:label="fragment_exercise"
+        tools:layout="@layout/fragment_exercise" />
+    <fragment
+        android:id="@+id/todoFragment"
+        android:name="com.example.covid2019.fragment.TodoFragment"
+        android:label="fragment_todo"
+        tools:layout="@layout/fragment_todo" />
 </navigation>
