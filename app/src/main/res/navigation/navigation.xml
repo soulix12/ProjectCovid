@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_mainFragment_to_todoFragment"
             app:destination="@id/todoFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_tableauFragment"
+            app:destination="@id/tableauFragment" />
     </fragment>
     <fragment
         android:id="@+id/exerciseFragment"
@@ -35,4 +38,8 @@
         android:name="com.example.covid2019.fragment.TodoFragment"
         android:label="fragment_todo"
         tools:layout="@layout/fragment_todo" />
+    <fragment
+        android:id="@+id/tableauFragment"
+        android:name="com.example.covid2019.fragment.TableauFragment"
+        android:label="TableauFragment" />
 </navigation>
