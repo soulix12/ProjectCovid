@@ -1,14 +1,17 @@
 package com.example.covid2019.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.example.covid2019.MainActivityDelegate
 
 import com.example.covid2019.R
 import com.example.covid2019.databinding.FragmentMainBinding
+import com.example.covid2019.util.initToolbar
 
 /**
  * A simple [Fragment] subclass.
@@ -16,9 +19,7 @@ import com.example.covid2019.databinding.FragmentMainBinding
  * create an instance of this fragment.
  */
 class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var mainActivityDelegate: MainActivityDelegate
 
     private lateinit var binding: FragmentMainBinding
 
@@ -36,6 +37,23 @@ class MainFragment : Fragment() {
         val v = binding.root
 
         return v
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            mainActivityDelegate = context as MainActivityDelegate
+        } catch (e: ClassCastException) {
+            throw ClassCastException("Host activity must implement MainActivity")
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        initToolbar(binding.toolbar, R.string.app_name, false)
+        mainActivityDelegate.setupNavDrawer(binding.toolbar)
+        mainActivityDelegate.enableNavDrawer(true)
     }
 
     companion object {

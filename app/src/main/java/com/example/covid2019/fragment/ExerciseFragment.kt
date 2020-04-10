@@ -1,17 +1,19 @@
 package com.example.covid2019.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.example.covid2019.MainActivityDelegate
 
 import com.example.covid2019.R
+import com.example.covid2019.databinding.FragmentExerciseBinding
+import com.example.covid2019.databinding.FragmentLoginBinding
+import com.example.covid2019.util.initToolbar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -19,15 +21,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ExerciseFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var mainActivityDelegate: MainActivityDelegate
 
+    private lateinit var binding: FragmentExerciseBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -36,7 +35,30 @@ class ExerciseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_exercise, container, false)
+
+        binding.buttonStart.setOnClickListener {
+            binding.simpleChronometer.start()
+            binding.buttonStart.text = "Stop"
+        }
+        val v = binding.root
+        return v
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            mainActivityDelegate = context as MainActivityDelegate
+        } catch (e: ClassCastException) {
+            throw ClassCastException("Host activity must implement MainActivity")
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initToolbar(binding.toolbar, R.string.app_name, false)
+        mainActivityDelegate.setupNavDrawer(binding.toolbar)
+        mainActivityDelegate.enableNavDrawer(false)
     }
 
     companion object {
@@ -53,8 +75,6 @@ class ExerciseFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             ExerciseFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

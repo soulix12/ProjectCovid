@@ -1,17 +1,17 @@
 package com.example.covid2019.fragment
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
+import androidx.databinding.DataBindingUtil
 
 import com.example.covid2019.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.covid2019.databinding.FragmentLoginBinding
+import com.example.covid2019.databinding.FragmentTableauBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -19,15 +19,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class TableauFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentTableauBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -36,7 +33,14 @@ class TableauFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tableau, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tableau, container, false)
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            binding.tableauWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+
+        binding.tableauWebView.loadUrl("https://public.tableau.com/profile/selina.yang7401#!/vizhome/COVID-19FinancialImpacts/Dashboard")
+        return binding.root
     }
 
     companion object {
@@ -53,8 +57,7 @@ class TableauFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             TableauFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
                 }
             }
     }

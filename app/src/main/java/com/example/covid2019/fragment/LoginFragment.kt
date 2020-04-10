@@ -34,9 +34,22 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             it.hideKeyboard()
-            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+            login()
         }
         return v
+    }
+
+    private fun login() {
+//        if (binding.editTextEmail.text!!.isBlank()) {
+//            binding.editTextEmail.error = "Please enter your login email"
+//            return
+//        }
+//
+//        if (binding.editTextPassword.text!!.isBlank()) {
+//            binding.editTextPassword.error = "Please enter your password"
+//            return
+//        }
+        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
     }
 
     companion object {
