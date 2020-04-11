@@ -6,6 +6,7 @@ import ai.api.android.AIConfiguration
 import ai.api.android.AIDataService
 import ai.api.model.AIRequest
 import ai.api.model.AIResponse
+import ai.api.model.ResponseMessage
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,10 @@ import androidx.fragment.app.Fragment
 import com.example.covid2019.R
 import com.example.covid2019.RequestTask
 import com.example.covid2019.databinding.FragmentHomeBinding
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.fragment_tableau.*
 import saschpe.android.customtabs.CustomTabsHelper
 import saschpe.android.customtabs.WebViewFallback
 import java.util.*
@@ -37,6 +42,8 @@ class HomeFragment : Fragment() {
     private val BOT = 10002
 
     private val uuid = UUID.randomUUID().toString()
+
+    private var bot_context: String? = null
 
     // Android client
     private var aiRequest: AIRequest? = null
@@ -58,13 +65,13 @@ class HomeFragment : Fragment() {
 
         binding.chatScrollView.post { binding.chatScrollView.fullScroll(ScrollView.FOCUS_DOWN) }
 
-        binding.sendBtn.setOnClickListener {sendMessage(it)}
+        binding.sendBtn.setOnClickListener {sendMessage(binding.queryEditText.text.toString())}
 
         binding.queryEditText.setOnKeyListener(View.OnKeyListener { view: View?, keyCode: Int, event: KeyEvent ->
             if (event.action == KeyEvent.ACTION_DOWN) {
                 when (keyCode) {
                     KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
-                        sendMessage(binding.sendBtn)
+                        sendMessage(binding.queryEditText.text.toString())
                         return@OnKeyListener true
                     }
                     else -> {
@@ -91,8 +98,7 @@ class HomeFragment : Fragment() {
         aiRequest = AIRequest()
     }
 
-    private fun sendMessage(view: View) {
-        val msg: String = binding.queryEditText.text.toString()
+    private fun sendMessage(msg: String) {
         if (msg.trim { it <= ' ' }.isEmpty()) {
             Toast.makeText(context, "Please enter your query!", Toast.LENGTH_LONG).show()
         } else {
@@ -119,6 +125,11 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.bot_msg_layout, null) as RelativeLayout
     }
 
+    fun getChoiceLayout(): RelativeLayout {
+        val inflater = LayoutInflater.from(context)
+        return inflater.inflate(R.layout.bot_msg_layout_choice, null) as RelativeLayout
+    }
+
     private fun showTextView(message: String, type: Int) {
         val layout: RelativeLayout
         when (type) {
@@ -134,12 +145,40 @@ class HomeFragment : Fragment() {
         binding.queryEditText.requestFocus() // change focus back to edit text to continue typing
     }
 
+    private fun showChoice(choice: JsonElement) {
+        val layout: RelativeLayout
+        layout = getChoiceLayout()
+        layout.isFocusableInTouchMode = true
+
+        binding.chatLayout.addView(layout) // move focus to text view to automatically make it scroll up if softfocus
+        val tv = layout.findViewById<TextView>(R.id.choice_1)
+        tv.text = choice.asJsonObject.get("text").asString
+        tv.setOnClickListener {
+            if (tv.text.toString().equals("No, thanks")) {
+                sendMessage(choice.asJsonObject.get("text").asString)
+            } else {
+                if (bot_context.equals("show_covid_info")) {
+                    openTableau()
+                }
+            }
+        }
+        layout.requestFocus()
+        binding.queryEditText.requestFocus() // change focus back to edit text to continue typing
+    }
+
 
     fun callback(aiResponse: AIResponse?) {
         if (aiResponse != null) { // process aiResponse here
-            Log.d("HomeFragment", aiResponse.result.toString())
             val botReply = aiResponse.result.fulfillment.speech
             showTextView(botReply, BOT)
+            if (aiResponse.result.fulfillment.messages.size > 1) {
+                val payload = aiResponse.result.fulfillment.messages.get(1) as ResponseMessage.ResponsePayload
+                val choices = payload.payload.getAsJsonArray("buttons")
+                bot_context = payload.payload.get("context").asString
+                for (choice in choices) {
+                    showChoice(choice)
+                }
+            }
         } else {
             showTextView("There was some communication issue. Please Try again!", BOT)
         }

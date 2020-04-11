@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingVertical="10dp"
+    android:paddingVertical="0dp"
     android:paddingLeft="15dp"
     android:paddingRight="60dp"
     android:clipToPadding="false">
@@ -12,7 +12,7 @@
         android:id="@+id/avatar"
         android:layout_alignParentStart="true"
         android:scaleType="centerInside"
-        android:background="@drawable/bot_circle"
+        android:background="@drawable/bot_circle_blank"
         android:layout_width="50dp"
         android:layout_height="50dp" />
 
@@ -26,17 +26,16 @@
         android:paddingBottom="4dp"
         />
 
-    <TextView
-        android:id="@+id/chatMsg"
+    <Button
+        android:id="@+id/choice_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_alignLeft="@+id/name"
         android:background="@drawable/bot_bg_bubble"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="16dp"
         android:elevation="2dp"
         android:textSize="18dp"
-        android:text="How are you doing? This is a long message that should probably wrap." />
+        android:text="anbsdfdsf"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>
