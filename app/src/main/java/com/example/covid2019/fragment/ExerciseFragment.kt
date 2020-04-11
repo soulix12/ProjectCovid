@@ -37,10 +37,6 @@ class ExerciseFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_exercise, container, false)
 
-        binding.buttonStart.setOnClickListener {
-            binding.simpleChronometer.start()
-            binding.buttonStart.text = "Stop"
-        }
         val v = binding.root
         return v
     }
@@ -56,9 +52,6 @@ class ExerciseFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initToolbar(binding.toolbar, R.string.app_name, false)
-        mainActivityDelegate.setupNavDrawer(binding.toolbar)
-        mainActivityDelegate.enableNavDrawer(false)
     }
 
     companion object {

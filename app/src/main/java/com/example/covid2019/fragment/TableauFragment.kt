@@ -39,6 +39,8 @@ class TableauFragment : Fragment() {
             binding.tableauWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
+        val newUA = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0"
+        binding.tableauWebView.settings.userAgentString = newUA
         binding.tableauWebView.loadUrl("https://public.tableau.com/profile/selina.yang7401#!/vizhome/COVID-19FinancialImpacts/Dashboard")
         return binding.root
     }
