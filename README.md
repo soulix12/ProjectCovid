@@ -15,12 +15,11 @@ One of the challenge during this global pandemic is:
     1. Promoting connection to family and friends to mitigate mental effects of social isolation.
     2. Mass scale mental health identification and tools to address through more convenient and accessible means.
 
-This app is the optimal solution for this problem and has the potention to expand in the future.
+This app is the optimal solution for this problem and has the potential to expand in the future.
 
 ## How the app work
 
-This Android application is the frontend which communicate with a chatbot ([DialogFlow from Google](https://dialogflow.com)), this bot is a friendly company and it try to identify the problem that user have and suggest the optimal solution using Artificial Intelligent.
-
+This Android application is the frontend which communicates with a chatbot ([DialogFlow from Google](https://dialogflow.com)), this bot is a friendly company and it tries to identify the problem that user have and suggest the optimal solution using Artificial Intelligent.
 ![Login](./img/login.png "Sign In")
 
 ![Chat](./img/chat.png "ChatBot")
