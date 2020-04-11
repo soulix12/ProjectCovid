@@ -1,8 +1,10 @@
 package com.example.covid2019
 
-import androidx.appcompat.app.AppCompatActivity
+import ai.api.model.AIResponse
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,6 +18,7 @@ class MainActivity : AppCompatActivity(),
     MainActivityDelegate {
 
     private lateinit var binding: ActivityMainBinding
+    private val TAG = MainActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
