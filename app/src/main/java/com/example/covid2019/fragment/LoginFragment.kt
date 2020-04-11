@@ -36,6 +36,11 @@ class LoginFragment : Fragment() {
             it.hideKeyboard()
             login()
         }
+
+        binding.btnSignup.setOnClickListener {
+            it.hideKeyboard()
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        }
         return v
     }
 
@@ -49,7 +54,7 @@ class LoginFragment : Fragment() {
 //            binding.editTextPassword.error = "Please enter your password"
 //            return
 //        }
-        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     companion object {
